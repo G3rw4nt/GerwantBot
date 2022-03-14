@@ -4,7 +4,7 @@ from discord.ext.tasks import loop
 import stream
 import time
 import datetime
-
+import tweepy
 
 
 
@@ -16,6 +16,11 @@ streamer_name = os.environ['streamer_name']
 gerwant = stream.Stream(client_id,client_secret,streamer_name)
 
 
+#twitter API authentication stuff
+auth = tweepy.OAuthHandler(os.environ['twitter_consumer_token'], os.environ['twitter_consumer_secret'])
+auth.set_access_token(os.environ['twitter_key'], os.environ['twitter_secret'])
+
+api = tweepy.API(auth)
 #starting discord bot
 client = discord.Client()
 alreadyOnline = False
@@ -54,6 +59,10 @@ async def notifications():
     embed.set_image(url="https://static-cdn.jtvnw.net/previews-ttv/live_user_gerw4nt-480x270.jpg")
     embed.set_footer(text='https://twitch.com/gerw4nt', icon_url = icon)
     await channel.send(embed=embed)
+    api.update_status("""#STREAM ONLINE! 🐺🐺🐺
+Today we're playing: {} 
+https://twitch.tv/gerw4nt
+#twitchtv #twitch #goinglive #gaming""".format(data["game_name"]))
     print("Stream online!")
 
 client.run(os.environ['bot_token'])

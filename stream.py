@@ -17,7 +17,7 @@ class Stream:
     r = requests.post('https://id.twitch.tv/oauth2/token', body)
 
     
-    keys = r.json()
+    keys = r.json();
     
     
     headers = {
@@ -28,7 +28,7 @@ class Stream:
     
     stream = requests.get('https://api.twitch.tv/helix/streams?user_login=' + self.streamer_name, headers=headers)
     
-    stream_data = stream.json()
+    stream_data = stream.json();
     
     return stream_data
   
@@ -39,6 +39,6 @@ class Stream:
     if len(stream_data['data']) == 1:
         return True
     else:
-        return False
+        return False;
     
     
